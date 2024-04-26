@@ -1,7 +1,7 @@
 import logo from "../assets/Art & craft Store.png";
 const Footer = () => {
   return (
-    <footer className="footer footer-center p-10 bg-gray-200 text-black mt-6">
+    <footer className="footer footer-center p-10  text-black mt-6 border border-t-black">
       <aside>
         <img src={logo} alt="" />
         <p>Copyright © 2024 - All right reserved</p>
