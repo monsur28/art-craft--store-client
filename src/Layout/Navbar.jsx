@@ -54,7 +54,7 @@ const Navbar = () => {
       {user && (
         <div className="flex">
           <li>
-            <NavLink to="/addcraftitem">Add Craft Item</NavLink>
+            <NavLink to="/addartitems">Add Craft Item</NavLink>
           </li>
           <li>
             <NavLink to="/myartcraftlist">My Art & Craft List</NavLink>

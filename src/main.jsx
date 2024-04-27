@@ -7,6 +7,9 @@ import AuthProvider from "./Providers/AuthProvider";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Home from "./Pages/Home";
+import AllArtItems from "./Pages/AllArtItems";
+import AddArtItems from "./Pages/AddArtItems";
+import PrivateRoute from "./Routers/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +27,18 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/allartitems",
+        element: <AllArtItems />,
+      },
+      {
+        path: "/addartitems",
+        element: (
+          <PrivateRoute>
+            <AddArtItems />
+          </PrivateRoute>
+        ),
       },
     ],
   },
