@@ -1,5 +1,9 @@
 import { useContext } from "react";
 import { AuthContext } from "../Providers/AuthProvider";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 const AddArtItems = () => {
   const { user } = useContext(AuthContext);
@@ -34,6 +38,25 @@ const AddArtItems = () => {
       userName,
     };
     console.log(newArtItem);
+
+    fetch("http://localhost:5000/art", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newArtItem),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          MySwal.fire({
+            title: "Good job!",
+            text: "Art Added Succesfully",
+            icon: "success",
+          });
+        }
+      });
   };
   return (
     <div>
