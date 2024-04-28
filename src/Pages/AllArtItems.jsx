@@ -1,5 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 import SingleArtItems from "../Layout/SingleArtItems";
+// import { useLocation } from "react";
 
 const AllArtItems = () => {
   const artData = useLoaderData();

@@ -77,8 +77,9 @@ const AddArtItems = () => {
                   id="name"
                   name="name"
                   type="text"
+                  required
                   placeholder="Art Name"
-                  className="w-full mt-2 rounded-md dark:text-gray-400 focus:ring p-4 focus:ring-opacity-75  focus:dark:ring-violet-600 dark:border-gray-300"
+                  className="w-full mt-2 rounded-md dark:text-gray-400 focus:ring p-4 focus:ring-opacity-75  focus:dark:ring-violet-600 border border-black dark:border-gray-300"
                 />
               </div>
               <div className="col-span-full sm:col-span-3">
@@ -89,8 +90,9 @@ const AddArtItems = () => {
                   id="photoURL"
                   name="photoURL"
                   type="text"
+                  required
                   placeholder="Art PhotURL"
-                  className="w-full mt-2  rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 dark:border-gray-300"
+                  className="w-full mt-2  rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
                 />
               </div>
               <div className="col-span-full sm:col-span-3">
@@ -98,7 +100,7 @@ const AddArtItems = () => {
                 <select
                   required
                   name="subcategory"
-                  className="w-full p-4 mt-2 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 dark:border-gray-300"
+                  className="w-full p-4 mt-2 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
                 >
                   <option>Select One</option>
                   <option>Landscape Painting</option>
@@ -113,7 +115,8 @@ const AddArtItems = () => {
                 <label className="text-sm">Customization</label>
                 <select
                   name="customization"
-                  className="w-full p-4 mt-2 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 dark:border-gray-300"
+                  required
+                  className="w-full p-4 mt-2 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
                 >
                   <option>Select One</option>
                   <option>Yes</option>
@@ -126,8 +129,9 @@ const AddArtItems = () => {
                   id="price"
                   name="price"
                   type="text"
+                  required
                   placeholder="$"
-                  className="w-full mt-2 rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 dark:border-gray-300"
+                  className="w-full mt-2 rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
                 />
               </div>
               <div className="col-span-full sm:col-span-3">
@@ -136,8 +140,9 @@ const AddArtItems = () => {
                   id="rating"
                   name="rating"
                   type="text"
+                  required
                   placeholder="*"
-                  className="w-full mt-2 rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 dark:border-gray-300"
+                  className="w-full mt-2 rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
                 />
               </div>
               <div className="col-span-full sm:col-span-3">
@@ -147,14 +152,16 @@ const AddArtItems = () => {
                   name="processing_time"
                   type="text"
                   placeholder="*"
-                  className="w-full mt-2 rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 dark:border-gray-300"
+                  required
+                  className="w-full mt-2 rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
                 />
               </div>
               <div className="col-span-full sm:col-span-3">
                 <label className="text-sm">Stock Status</label>
                 <select
                   name="stockStatus"
-                  className="w-full p-4 mt-2 text-slate-400 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 dark:border-gray-300"
+                  required
+                  className="w-full p-4 mt-2 text-slate-400 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-500 border border-black focus:dark:ring-violet-600 dark:border-gray-300"
                 >
                   <option>Select One</option>
                   <option>In stock</option>
@@ -171,14 +178,15 @@ const AddArtItems = () => {
                   id=""
                   cols="20"
                   rows="5"
-                  className="w-full mt-2 rounded-md p-10 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 dark:border-gray-300"
+                  required
+                  className="w-full mt-2 border border-black rounded-md p-10 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 dark:border-gray-300"
                 ></textarea>
-                <div className="flex mt-5 items-center lg:w-[880px] w-full pt-4 space-x-1 justify-center border-[5px]">
-                  <div className="flex-8 h-px lg:w-96 sm:w-16 text-center dark:bg-gray-300"></div>
+                <div className="flex mt-5 items-center lg:w-[1180px] w-full pt-4 space-x-1 justify-center">
+                  <div className="flex-8 h-px lg:w-[350px] sm:w-16 text-center border border-black "></div>
                   <p className="px-3 text-lg dark:text-gray-500 ">
                     User Details
                   </p>
-                  <div className="flex-8 h-px sm:w-16 dark:bg-gray-300"></div>
+                  <div className="flex-8 h-px lg:w-[350px] sm:w-16 text-center border border-black "></div>
                 </div>
               </div>
               <div className="col-span-full sm:col-span-3 ">
@@ -209,7 +217,9 @@ const AddArtItems = () => {
                   className="w-full mt-2 rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 border border-black focus:dark:ring-violet-600 dark:border-gray-300"
                 />
               </div>
-              <button className="btn btn-block col-span-6">Add Product</button>
+              <button className="btn btn-block col-span-6 bg-teal-500">
+                Add Product
+              </button>
             </div>
           </fieldset>
         </form>

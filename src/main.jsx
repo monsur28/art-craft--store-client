@@ -10,6 +10,7 @@ import Home from "./Pages/Home";
 import AllArtItems from "./Pages/AllArtItems";
 import AddArtItems from "./Pages/AddArtItems";
 import PrivateRoute from "./Routers/PrivateRoute";
+import ArtDetails from "./Pages/ArtDetails";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,15 @@ const router = createBrowserRouter([
         path: "/allartitems",
         element: <AllArtItems />,
         loader: () => fetch("http://localhost:5000/art"),
+      },
+      {
+        path: "/allartitems/:id",
+        element: (
+          <PrivateRoute>
+            <ArtDetails />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) => fetch(`http://localhost:5000/art/${params.id}`),
       },
       {
         path: "/addartitems",
