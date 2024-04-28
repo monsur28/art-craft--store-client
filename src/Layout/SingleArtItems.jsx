@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { IoIosPricetags } from "react-icons/io";
 import { FaRegStar, FaCommentsDollar } from "react-icons/fa";
 
 const SingleArtItems = ({ item }) => {
