@@ -55,6 +55,7 @@ const AddArtItems = () => {
             text: "Art Added Succesfully",
             icon: "success",
           });
+          e.form.reset();
         }
       });
   };

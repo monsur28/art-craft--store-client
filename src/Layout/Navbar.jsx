@@ -91,7 +91,7 @@ const Navbar = () => {
           </ul>
         </div>
         <NavLink to="/">
-          <img className="w-1/2 text-xl" src={logo} alt="" />
+          <img className="w-1/2 text-xl " src={logo} alt="" />
         </NavLink>
       </div>
       <div className="navbar-center hidden lg:flex">
