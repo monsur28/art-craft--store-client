@@ -35,6 +35,11 @@ const router = createBrowserRouter([
         loader: () => fetch("http://localhost:5000/art"),
       },
       {
+        path: "/landscapePainting",
+        element: <AllArtItems />,
+        loader: () => fetch("http://localhost:5000/art"),
+      },
+      {
         path: "/allartitems/:id",
         element: (
           <PrivateRoute>

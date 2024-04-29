@@ -1,7 +1,20 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Typewriter } from "react-simple-typewriter";
+
+import CategorySection from "./CategorySection";
 const Category = () => {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:5000/art")
+      .then((res) => res.json())
+      .then((data) => {
+        const uniqueCategories = data.filter(
+          (data) => data.subCategoryName === data.subCategoryName
+        );
+        setCategories(uniqueCategories);
+      });
+  }, []);
+  console.log(categories);
   return (
     <div>
       <div className="text-center text-4xl">
@@ -32,8 +45,10 @@ const Category = () => {
         </h1>
       </div>
       <div className="grid grid-cols-3 gap-4">
-        <Link to="/allartitems?subcategoryName=Landscape Painting">
-          <div className="card bg-base-100 shadow-xl image-full">
+          {categories.map((item) => (
+            <CategorySection key={item._id} item={item}></CategorySection>
+          ))}
+          {/* <div className="card bg-base-100 shadow-xl image-full">
             <figure>
               <img
                 src="https://i.ibb.co/Tm02Vss/The-Starry-Night-1200x630-1.jpg"
@@ -43,9 +58,8 @@ const Category = () => {
             <div className="card-body flex justify-center items-center">
               <h2 className="card-title">Landscape Painting</h2>
             </div>
-          </div>
-        </Link>
-        <div className="card bg-base-100 shadow-xl image-full">
+          </div> */}
+        {/* <div className="card bg-base-100 shadow-xl image-full">
           <figure>
             <img src="https://i.ibb.co/2S3HpJb/Rod-Luff-006.jpg" alt="Shoes" />
           </figure>
@@ -96,7 +110,7 @@ const Category = () => {
           <div className="card-body flex justify-center items-center">
             <h2 className="card-title">Cartoon Drawing</h2>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
