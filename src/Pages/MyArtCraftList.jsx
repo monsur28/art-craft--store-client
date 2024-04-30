@@ -1,141 +1,290 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Providers/AuthProvider";
+import { Fade } from "react-awesome-reveal";
+import { FaDollarSign } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 const MyArtCraftList = () => {
   const { user } = useContext(AuthContext) || {};
+  const [myitem, setMyItem] = useState([]);
   useEffect(() => {
     fetch(`http://localhost:5000/myartlist/${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        setMyItem(data);
       });
   }, [user]);
+
+  const handleUpdateProduct = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const artName = form.name.value;
+    const photoURL = form.photoURL.value;
+    const subcategoryName = form.subcategory.value;
+    const customization = form.customization.value;
+    const price = form.price.value;
+    const rating = form.rating.value;
+    const processingTime = form.processing_time.value;
+    const stockStatus = form.stockStatus.value;
+    const description = form.description.value;
+    const email = user.email;
+    const userName = user.displayName;
+    console.log(artName);
+
+    const newArtItem = {
+      artName,
+      photoURL,
+      subcategoryName,
+      customization,
+      price,
+      rating,
+      processingTime,
+      stockStatus,
+      description,
+      email,
+      userName,
+    };
+    console.log(newArtItem);
+
+    fetch("http://localhost:5000/art", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newArtItem),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          MySwal.fire({
+            title: "Good job!",
+            text: "Art Added Succesfully",
+            icon: "success",
+          });
+          e.form.reset();
+        }
+      });
+  };
   return (
     <Fade>
-      <div className="bg-[#E5E2DB] p-2">
-        <Helmet>
-          <title>Ranga-My Art & Craft List</title>
-        </Helmet>
-        <div className="flex justify-center text-center">
-          <div className="bg-[#ffffff] rounded-md p-5 md:p-10 my-[100px] max-w-[9000px] shadow">
-            <h1 className="text-[30px] font-mono">My Art and Craft List</h1>
-            <p className="max-w-[600px] m-auto mt-2">
-              Introducing our newest additions to your art and craft list!
-              Explore a wide range of supplies including paints, brushes, beads,
-              and more. Unleash your creativity and bring your artistic visions
-              to life!
-            </p>
-            <div className="dropdown dropdown-hover py-5">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn m-1 bg-neutral text-white hover:bg-neutral"
-              >
-                Sort Customization
-              </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-[160px] border"
-              >
-                {uniqueCustomize.map((item, index) => (
-                  <li key={index}>
-                    <a onClick={() => handleSort(item.customization)}>
-                      {item.customization}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
-              {sortedItems.map((artAndCraft, index) => (
-                <div
-                  key={index}
-                  className="card bg-[#E5E2DB] card-compact rounded-md shadow-xl"
-                >
-                  <figure>
-                    <img
-                      className="h-[250px] w-full object-cover"
-                      src={artAndCraft.photoURL}
-                      alt="image"
-                    />
-                  </figure>
-                  <div className="p-5 text-left">
-                    <h2 className="card-title">{artAndCraft.itemName}</h2>
-                    <div className="flex gap-3">
-                      <p className="text-[20px] flex items-center gap-1">
-                        <span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="w-6 h-6"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                            />
-                          </svg>
-                        </span>
-                        {artAndCraft.price}
-                      </p>
-                      <p className="text-[20px] flex items-center gap-1">
-                        <span className="">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="w-6 h-6"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                            />
-                          </svg>
-                        </span>
-                        {artAndCraft.rating}
-                      </p>
-                    </div>
-                    <p className="text-[16px]">
-                      <span className="font-semibold">Customization : </span>
-                      {artAndCraft.customization === "yes" ? (
-                        <span className="badge text-white badge-success">
-                          {artAndCraft.customization}
-                        </span>
-                      ) : (
-                        <span className="badge text-white badge-error">
-                          {artAndCraft.customization}
-                        </span>
-                      )}
-                    </p>
-                    <p className="text-[16px]">
-                      <span className="font-semibold">Stock Status :</span>{" "}
-                      {artAndCraft.stockStatus}
-                    </p>
-                    <div className="flex justify-start gap-2 mt-2">
-                      <Link to={`/updateArtAndCraftSng/${artAndCraft._id}`}>
-                        <button className="bg-transparent py-2 border-black border text-black px-5 rounded-full mt-1 hover:bg-black hover:text-white mb-2">
-                          Update
-                        </button>
-                      </Link>
-                      <button
-                        onClick={() => handleDelete(artAndCraft._id)}
-                        className="bg-transparent py-2 border-black border text-black px-5 rounded-full mt-1 hover:bg-black hover:text-white mb-2"
-                      >
-                        Delete
-                      </button>
-                    </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {myitem?.map((item) => (
+          <>
+            <div className="mt-4 card card-compact h-full bg-base-100 shadow-xl border border-black dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600">
+              <figure className="relative">
+                <img className="w-full h-64" src={item.photoURL} alt="Shoes" />
+                {item.stockStatus === "Sale" ? (
+                  <div className="absolute bg-green-400 p-2 rounded-full top-1 ml-[330px]">
+                    <h2 className=" text-black ">{item.stockStatus}</h2>
+                  </div>
+                ) : (
+                  <div className="absolute bg-cyan-400 p-2 rounded-full top-1 ml-[330px]">
+                    <h2 className=" text-black">{item.stockStatus}</h2>
+                  </div>
+                )}
+              </figure>
+              <div className="card-body">
+                <h2 className="card-title font-semibold">{item.artName}</h2>
+                <p className="text-left">{item.description}</p>
+                <div className="flex justify-between">
+                  <div className="flex items-center text-lg gap-2">
+                    <FaDollarSign className="" />
+                    {item.price}
+                  </div>
+                  <div className="flex items-center text-lg gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="-mt-0.5 h-5 w-5 text-yellow-700"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    {item.rating}
                   </div>
                 </div>
-              ))}
+                <div className="card-actions justify-end">
+                  {/* <Link
+                    // onClick={hadleUser}
+                    // to={`/allartitems/${item._id}`}
+                    className="bg-transparent w-full text-center hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                  >
+                    Open the modal using document.getElementById('ID').showModal() method */}
+                  <button
+                    className="btn bg-transparent w-full text-center hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent round "
+                    onClick={() =>
+                      document.getElementById("my_modal_1").showModal()
+                    }
+                  >
+                    Upadate
+                  </button>
+                  <dialog id="my_modal_1" className="modal">
+                    <div className="modal-box max-w-full">
+                      <h3 className="font-bold text-lg">
+                        Update Your Product Details
+                      </h3>
+                      <form
+                        onSubmit={handleUpdateProduct}
+                        className="container flex flex-col space-y-12 dark:bg-gray-200"
+                      >
+                        <fieldset className="grid grid-cols-2 gap-6 p-6 rounded-md shadow-sm ">
+                          <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3 items-center">
+                            <div className="col-span-full sm:col-span-3 ">
+                              <label className="text-sm">Art Name</label>
+                              <input
+                                id="name"
+                                name="name"
+                                type="text"
+                                defaultValue={item.artName}
+                                required
+                                placeholder="Art Name"
+                                className="w-full mt-2 rounded-md dark:text-gray-400 focus:ring p-4 focus:ring-opacity-75  focus:dark:ring-violet-600 border border-black dark:border-gray-300"
+                              />
+                            </div>
+                            <div className="col-span-full sm:col-span-3">
+                              <label htmlFor="lastname" className="text-sm">
+                                Art PhotURL
+                              </label>
+                              <input
+                                id="photoURL"
+                                name="photoURL"
+                                type="text"
+                                defaultValue={item.photoURL}
+                                required
+                                placeholder="Art PhotURL"
+                                className="w-full mt-2  rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
+                              />
+                            </div>
+                            <div className="col-span-full sm:col-span-3">
+                              <label>SubCatagory Name</label>
+                              <select
+                                required
+                                name="subcategory"
+                                defaultValue={item.subcategoryName}
+                                className="w-full p-4 mt-2 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
+                              >
+                                <option>Select One</option>
+                                <option>Landscape Painting</option>
+                                <option>Portrait Drawing</option>
+                                <option>Watercolour Painting</option>
+                                <option>Oil Painting</option>
+                                <option>Charcoal Sketching</option>
+                                <option>Cartoon Drawing</option>
+                              </select>
+                            </div>
+                            <div className="col-span-full sm:col-span-3">
+                              <label className="text-sm">Customization</label>
+                              <select
+                                name="customization"
+                                defaultValue={item.customization}
+                                required
+                                className="w-full p-4 mt-2 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
+                              >
+                                <option>Select One</option>
+                                <option>Yes</option>
+                                <option>No</option>
+                              </select>
+                            </div>
+                            <div className="col-span-full sm:col-span-3">
+                              <label className="text-sm">Price</label>
+                              <input
+                                id="price"
+                                name="price"
+                                defaultValue={item.price}
+                                type="text"
+                                required
+                                placeholder="$"
+                                className="w-full mt-2 rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
+                              />
+                            </div>
+                            <div className="col-span-full sm:col-span-3">
+                              <label className="text-sm">Rating</label>
+                              <input
+                                id="rating"
+                                name="rating"
+                                defaultValue={item.rating}
+                                type="text"
+                                required
+                                placeholder="*"
+                                className="w-full mt-2 rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
+                              />
+                            </div>
+                            <div className="col-span-full sm:col-span-3">
+                              <label className="text-sm">Processing Time</label>
+                              <input
+                                id="processing_time"
+                                name="processing_time"
+                                defaultValue={item.processingTime}
+                                type="text"
+                                placeholder="*"
+                                required
+                                className="w-full mt-2 rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
+                              />
+                            </div>
+                            <div className="col-span-full sm:col-span-3">
+                              <label className="text-sm">Stock Status</label>
+                              <select
+                                name="stockStatus"
+                                defaultValue={item.stockStatus}
+                                required
+                                className="w-full p-4 mt-2 text-slate-400 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-500 border border-black focus:dark:ring-violet-600 dark:border-gray-300"
+                              >
+                                <option>Select One</option>
+                                <option>In stock</option>
+                                <option>Made to Order</option>
+                              </select>
+                            </div>
+                            <div className="col-span-full sm:col-span-3">
+                              <div className="col-span-full sm:col-span-3"></div>
+                            </div>
+                            <div className="col-span-full ">
+                              <label className="text-sm">Description</label>
+                              <textarea
+                                name="description"
+                                id=""
+                                cols="20"
+                                defaultValue={item.description}
+                                rows="5"
+                                required
+                                className="w-full mt-2 border border-black rounded-md p-10 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 dark:border-gray-300"
+                              ></textarea>
+                            </div>
+                            <button className="btn btn-block col-span-6 bg-teal-500">
+                              Update Art Details
+                            </button>
+                          </div>
+                        </fieldset>
+                      </form>
+                      <div className="modal-action">
+                        <form method="dialog">
+                          {/* if there is a button in form, it will close the modal */}
+                          <button className="btn">Close</button>
+                        </form>
+                      </div>
+                    </div>
+                  </dialog>
+                  {/* </Link> */}
+                  <Link
+                    // onClick={hadleUser}
+                    // to={`allartitems/${_id}`}
+                    className="bg-transparent w-full text-center hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                  >
+                    <button>Delete</button>
+                  </Link>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </>
+        ))}
       </div>
     </Fade>
   );
