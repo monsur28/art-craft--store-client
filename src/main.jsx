@@ -11,6 +11,7 @@ import AllArtItems from "./Pages/AllArtItems";
 import AddArtItems from "./Pages/AddArtItems";
 import PrivateRoute from "./Routers/PrivateRoute";
 import ArtDetails from "./Pages/ArtDetails";
+import MyArtCraftList from "./Pages/MyArtCraftList";
 
 const router = createBrowserRouter([
   {
@@ -35,11 +36,6 @@ const router = createBrowserRouter([
         loader: () => fetch("http://localhost:5000/art"),
       },
       {
-        path: "/landscapePainting",
-        element: <AllArtItems />,
-        loader: () => fetch("http://localhost:5000/art"),
-      },
-      {
         path: "/allartitems/:id",
         element: (
           <PrivateRoute>
@@ -55,6 +51,15 @@ const router = createBrowserRouter([
             <AddArtItems />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/myartcraftlist",
+        element: (
+          <PrivateRoute>
+            <MyArtCraftList />
+          </PrivateRoute>
+        ),
+        loader: () => fetch("http://localhost:5000/art"),
       },
     ],
   },

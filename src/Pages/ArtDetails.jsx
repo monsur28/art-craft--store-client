@@ -63,7 +63,7 @@ const ArtDetails = () => {
               color="blue-gray"
               className="flex items-center gap-1.5 font-normal"
             >
-              <FaCommentsDollar /> {price}$
+              <FaCommentsDollar /> ${price}
             </Typography>
             <Typography
               color="blue-gray"

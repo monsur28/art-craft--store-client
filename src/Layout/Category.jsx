@@ -29,7 +29,7 @@ const Category = () => {
             fontWeight: "normal",
           }}
         >
-          We Have Painting of{" "}
+          We Have Variety of{" "}
           <span style={{ color: "green", fontWeight: "bold" }}>
             <Typewriter
               words={[
@@ -48,34 +48,29 @@ const Category = () => {
           </span>
         </h1>
       </div>
-      <div className="mt-6 max-h-fit">
+      <div className="mt-6 ">
         <Tabs>
           <TabList>
             <Tab onClick={() => setSelectedCategory("All")}>All</Tab>
             <Tab onClick={() => setSelectedCategory("Landscape Painting")}>
-              Single-family homes
+              Landscape Painting
             </Tab>
             <Tab onClick={() => setSelectedCategory("Portrait Drawing")}>
-              Apartment
+              Portrait Drawing
             </Tab>
             <Tab onClick={() => setSelectedCategory("Watercolour Painting")}>
-              Townhouses
+              Watercolour Painting
             </Tab>
-            <div onClick={() => setSelectedCategory("Oil Painting")}>
-              Senior living communities
-            </div>
+            <Tab onClick={() => setSelectedCategory("Oil Painting")}>
+              Oil Painting
+            </Tab>
             <Tab onClick={() => setSelectedCategory("Charcoal Sketching")}>
-              Student housing
-            </Tab>
-            <Tab onClick={() => setSelectedCategory("Cartoon Drawing")}>
-              Vacation rentals
+              Charcoal Sketching
             </Tab>
           </TabList>
           <TabPanel>
-            <ul className="grid grid-cols-1 lg:grid-cols-3 gap-4"></ul>
-          </TabPanel>
-          <TabPanel>
             <ul className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              {" "}
               {filteredData.map((data) => (
                 <CategorySection key={data.id} data={data}></CategorySection>
               ))}
