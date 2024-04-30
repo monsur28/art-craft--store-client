@@ -60,6 +60,7 @@ const router = createBrowserRouter([
             <MyArtCraftList />
           </PrivateRoute>
         ),
+        loader: () => fetch("http://localhost:5000/art"),
       },
       {
         path: "/updateData/:id",

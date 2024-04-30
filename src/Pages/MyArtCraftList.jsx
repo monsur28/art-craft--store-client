@@ -2,11 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Providers/AuthProvider";
 import { Fade } from "react-awesome-reveal";
 import { FaDollarSign } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 const MyArtCraftList = () => {
   const { user } = useContext(AuthContext) || {};
   const [myitem, setMyItem] = useState([]);
+
   useEffect(() => {
     fetch(`http://localhost:5000/myartlist/${user?.email}`)
       .then((res) => res.json())
@@ -16,7 +21,34 @@ const MyArtCraftList = () => {
   }, [user]);
 
   const handleDelete = (_id) => {
-    console.log(_id);
+    MySwal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/art/${_id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.deletedCount > 0) {
+              MySwal.fire({
+                title: "Deleted!",
+                text: "Your Art has been deleted.",
+                icon: "success",
+              });
+              const remainData = myitem.filter((item) => item._id !== _id);
+              setMyItem(remainData);
+            }
+          });
+      }
+    });
   };
   return (
     <Fade>
