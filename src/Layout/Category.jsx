@@ -9,7 +9,7 @@ const Category = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
-    fetch("http://localhost:5000/art")
+    fetch("https://b9a9-art-craft-store-server.vercel.app/art")
       .then((res) => res.json())
       .then((data) => setArtData(data));
   }, []);

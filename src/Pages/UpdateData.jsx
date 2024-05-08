@@ -32,7 +32,7 @@ const UpdateData = () => {
     };
     console.log(newArtItem);
 
-    fetch(`http://localhost:5000/art/${_id}`, {
+    fetch(`https://b9a9-art-craft-store-server.vercel.app/art/${_id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

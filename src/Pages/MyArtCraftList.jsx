@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Providers/AuthProvider";
 import { Fade } from "react-awesome-reveal";
 import { FaDollarSign } from "react-icons/fa6";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -11,9 +11,13 @@ const MySwal = withReactContent(Swal);
 const MyArtCraftList = () => {
   const { user } = useContext(AuthContext) || {};
   const [myitem, setMyItem] = useState([]);
+  const [sort, setSort] = useState("");
+  const userEmail = user ? user.email : null;
 
   useEffect(() => {
-    fetch(`http://localhost:5000/myartlist/${user?.email}`)
+    fetch(
+      `https://b9a9-art-craft-store-server.vercel.app/myartlist/${user?.email}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setMyItem(data);
@@ -31,7 +35,7 @@ const MyArtCraftList = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/art/${_id}`, {
+        fetch(`https://b9a9-art-craft-store-server.vercel.app/art/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -50,10 +54,52 @@ const MyArtCraftList = () => {
       }
     });
   };
+
+  const handleSort = (customization) => {
+    setSort(customization);
+  };
+
+  const filteredArtAndCraft = userEmail
+    ? myitem.filter((artAndCraft) => artAndCraft.email === userEmail)
+    : [];
+
+  const uniqueCustomize = filteredArtAndCraft.filter(
+    (customize, index, self) =>
+      index ===
+      self.findIndex((t) => t.customization === customize.customization)
+  );
+
+  const sortedItems = sort
+    ? filteredArtAndCraft.filter(
+        (artAndCraft) => artAndCraft.customization === sort
+      )
+    : filteredArtAndCraft;
+
   return (
     <Fade>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {myitem?.map((item) => (
+      <div className="dropdown dropdown-hover py-5 flex items-center justify-center">
+        <div
+          tabIndex={0}
+          role="button"
+          className="btn m-1 bg-neutral text-white hover:bg-neutral"
+        >
+          Customization
+        </div>
+        <ul
+          tabIndex={0}
+          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-[160px] border"
+        >
+          {uniqueCustomize.map((item, index) => (
+            <li key={index}>
+              <a onClick={() => handleSort(item.customization)}>
+                {item.customization}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 ">
+        {sortedItems?.map((item) => (
           <>
             <div className="mt-4 card card-compact h-full bg-base-100 shadow-xl border border-black dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600">
               <figure className="relative">

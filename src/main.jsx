@@ -13,11 +13,13 @@ import PrivateRoute from "./Routers/PrivateRoute";
 import ArtDetails from "./Pages/ArtDetails";
 import MyArtCraftList from "./Pages/MyArtCraftList";
 import UpdateData from "./Pages/UpdateData";
+import ErrorPage from "./Pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
@@ -34,7 +36,8 @@ const router = createBrowserRouter([
       {
         path: "/allartitems",
         element: <AllArtItems />,
-        loader: () => fetch("http://localhost:5000/art"),
+        loader: () =>
+          fetch("https://b9a9-art-craft-store-server.vercel.app/art"),
       },
       {
         path: "/allartitems/:id",
@@ -43,7 +46,10 @@ const router = createBrowserRouter([
             <ArtDetails />
           </PrivateRoute>
         ),
-        loader: ({ params }) => fetch(`http://localhost:5000/art/${params.id}`),
+        loader: ({ params }) =>
+          fetch(
+            `https://b9a9-art-craft-store-server.vercel.app/art/${params.id}`
+          ),
       },
       {
         path: "/addartitems",
@@ -60,7 +66,8 @@ const router = createBrowserRouter([
             <MyArtCraftList />
           </PrivateRoute>
         ),
-        loader: () => fetch("http://localhost:5000/art"),
+        loader: () =>
+          fetch("https://b9a9-art-craft-store-server.vercel.app/art"),
       },
       {
         path: "/updateData/:id",
@@ -69,7 +76,10 @@ const router = createBrowserRouter([
             <UpdateData />
           </PrivateRoute>
         ),
-        loader: ({ params }) => fetch(`http://localhost:5000/art/${params.id}`),
+        loader: ({ params }) =>
+          fetch(
+            `https://b9a9-art-craft-store-server.vercel.app/art/${params.id}`
+          ),
       },
     ],
   },
