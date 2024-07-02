@@ -63,9 +63,9 @@ Set up environment variables:
 ### Running Locally
 
 Start the development server:
-    ```bash
+```bash
   npm start
-  ...
+  ```
 
 Open your web browser and navigate to http://localhost:3000.
 
